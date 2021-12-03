@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件切换</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .v-enter{
+            opacity: 0;
+            margin-left: 500px;
+        }
+        .v-enter-active{
+            transition: all 3s;
+        }
+        .v-enter-to{
+            opacity: 1;
+        }
+        .v-leave{
+            opacity: 1;
+        }
+        .v-leave-active{
+            transition: all 3s;
+        }
+        .v-leave-to{
+            opacity: 0;
+            margin-left: 500px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="toggle">切换按钮</button>
+<!--    <home v-if="isShow"></home>-->
+<!--    <photo v-else></photo>-->
+
+<!--    <keep-alive>-->
+<!--        <component v-bind:is="name"></component>-->
+<!--    </keep-alive>-->
+<!--    默认动画同时进行-->
+        <transition mode="out-in">
+            <component v-bind:is="name"></component>
+        </transition>
+</div>
+<template id="home">
+    <div>
+        <p>段落内容</p>
+<!--        使用keep-alive可以保存input的选中状态-->
+<!--        <input type="checkbox">-->
+    </div>
+</template>
+<template id="photo">
+    <div>
+        <img src="../images/star_02.jpeg" alt="">
+    </div>
+</template>
+<script>
+    Vue.component("home",{
+        template:"#home"
+    });
+    Vue.component("photo",{
+        template:"#photo"
+    });
+    let vm = new Vue({
+        el:"#app",
+        data:{
+            isShow:true,
+            name:"home",
+        },
+        methods: {
+            toggle(){
+                this.isShow = !this.isShow;
+                //this.name==="home"吗，是改成photo，否则是home
+                this.name = this.name === "home" ? "photo" : "home";
+            }
+        }
+    })
+</script>
+</body>
+</html>

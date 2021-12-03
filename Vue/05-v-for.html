@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <form>
+        <input type="text" v-model="name">
+        <input type="submit" value="添加" @click.prevent="add">
+    </form>
+    <ul>
+        <li v-for="(person,index) in persons" :key="person.id"><!--:key="person.id"绑定id-->
+            <input type="checkbox">
+            <span>{{index}}---{{person.name}}</span>
+        </li>
+    </ul>
+</div>
+<script>
+    let vue = new Vue({
+        el:"#app",
+        data: {
+            persons: [{
+                name: "chen",
+                id: 1
+            },
+            {
+                name: "hello",
+                id: 2
+            },
+            {
+                name: "liu",
+                id: 3
+            }],
+        },
+        methods : {
+            add(){
+                let lastPerson = this.persons[this.persons.length-1];//最后一个人的数据
+                let newPerson = {name : this.name,id:lastPerson.id+1};//最后一个人的id+1为新生成的id
+                // this.persons.push(newPerson);
+                this.persons.unshift(newPerson);
+                this.name="";
+
+            }
+        }
+    });
+</script>
+</body>
+</html>

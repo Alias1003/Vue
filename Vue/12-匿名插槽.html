@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>匿名插槽</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <father></father>
+</div>
+<template id="father">
+    <div>
+        <son>
+            <div>新加数据</div>
+        </son>
+    </div>
+</template>
+<template id="son">
+    <div>
+        <div>头部</div>
+        <slot>默认数据</slot>
+        <div>底部</div>
+    </div>
+</template>
+<script>
+    Vue.component("father",{
+        template:"#father",
+        components:{
+            "son":{
+                template: "#son",
+            }
+        }
+    });
+    let vm = new Vue({
+       el:"#app",
+    });
+</script>
+</body>
+</html>

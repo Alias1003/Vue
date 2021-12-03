@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <abc></abc>
+    <abc></abc>
+    <abc></abc>
+</div>
+<template id="info">
+    <div>
+        <button @click="add">累加按钮</button>
+        <p>{{number}}</p>
+    </div>
+</template>
+<script>
+    //自定义全局组件
+    Vue.component("abc",{
+        template:"#info",
+        data:function () {
+            return {
+                number:0,
+            }
+        },
+        methods:{
+            add(){
+                this.number++;
+            }
+        }
+    });
+    let vue = new Vue({
+        el:"#app",
+
+    });
+</script>
+</body>
+</html>

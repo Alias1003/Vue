@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>练习</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>{{time | dateFormat}}</p>
+    <p>{{time | dateFormat("yyyy-mm-dd")}}</p>
+</div>
+<script>
+    let vm = new Vue({
+        el : "#app",
+        data : {
+            time : Date.now(),
+        },
+        filters : {
+            "dateFormat":function (value,fmStr) {
+                let date = new Date(value);
+                let year = date.getFullYear()+"";
+                let month = date.getMonth()+1+"";
+                let day = date.getDate()+"";
+                let hour = date.getHours()+"";
+                let minute = date.getMinutes()+"";
+                let second = date.getSeconds()+"";
+                if(fmStr && fmStr==="yyyy-mm-dd")
+                    return `${year}-${month.padStart(2,"0")}-${day.padStart(2,"0")}`;
+                else
+                    // padStart(2,"0")判断字符串长度是否大于2，不满足加0
+                    return `${year}-${month.padStart(2,"0")}-${day.padStart(2,"0")} ${hour.padStart(2,"0")}:${minute.padStart(2,"0")}:${second.padStart(2,"0")}`;
+            }
+        }
+    });
+</script>
+</body>
+</html>

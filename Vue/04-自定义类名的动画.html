@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画</title>
+    <script src="../js/vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" type="text/css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 200px;
+            height: 200px;
+            background: greenyellow;
+        }
+        .a{
+            opacity: 0;
+        }
+        .b{
+            transition: all 3s;
+        }
+        .c{
+            opacity: 1;
+            margin-left: 500px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="toggle">按钮</button>
+    <transition appear
+                enter-class=""
+                enter-active-class="animated bounceInRight"
+                enter-to-class="">
+        <div class="box" v-show="isShow"></div>
+    </transition>
+</div>
+<script>
+    let vm = new Vue({
+        el: "#app",
+        data:{
+            isShow: false,
+        },
+        methods :{
+            toggle(){
+                this.isShow = !this.isShow;
+            }
+        },
+    });
+</script>
+</body>
+</html>

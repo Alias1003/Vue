@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-slot</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <father></father>
+</div>
+<template id="father">
+    <div>
+        <son>
+<!--            <template v-slot:one>-->
+<!--                <div>新加数据1</div>-->
+<!--                <div>新加数据11</div>-->
+<!--            </template>-->
+<!--            <template v-slot:two>-->
+<!--                <div>新加数据2</div>-->
+<!--                <div>新加数据22</div>-->
+<!--            </template>-->
+            <template #one>
+                <div>新加数据1</div>
+                <div>新加数据11</div>
+            </template>
+            <template #two>
+                <div>新加数据2</div>
+                <div>新加数据22</div>
+            </template>
+        </son>
+    </div>
+</template>
+<template id="son">
+    <div>
+        <div>头部</div>
+        <slot name="one">默认数据</slot>
+        <slot name="two">默认数据</slot>
+        <div>底部</div>
+    </div>
+</template>
+<script>
+    Vue.component("father",{
+        template:"#father",
+        components:{
+            "son":{
+                template: "#son",
+            }
+        }
+    });
+    let vm = new Vue({
+       el:"#app",
+    });
+</script>
+</body>
+</html>

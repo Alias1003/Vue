@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+<!--使用注册好的组件-->
+    <button @click="myFn">按钮</button>
+    <p>{{Msg}}</p>
+    <abc></abc>
+</div>
+<template id="info">
+    <div>
+        <img src="../images/cln.PNG" alt="图片" title="cln">
+        <p>描述信息</p>
+        <p>{{Msg1}}</p>
+        <button @click="myFn1">按钮1</button>
+    </div>
+</template>
+<script>
+    // ①创建组件构造器
+    // let Profile = Vue.extend({
+    //    template:`
+    //         <div>
+    //             <img src="../images/cln.PNG" alt="图片" title="cln">
+    //             <p>描述信息</p>
+    //         </div>
+    //    `
+    // });
+    // ②注册已经创建好的组件
+    // 第一个参数是指定注册的组件的名称
+    // 第二个参数是传入已经创建好的组件构造器
+    Vue.component("abc",{
+        // 注意点：在创建组件指定组件的模板时，模板只能有一个根元素
+        template: "#info",
+        methods: {
+            myFn1(){
+                alert("局部myFn1")
+            }
+        },
+        data :function () {
+            return {
+                Msg1:"局部描述文字",
+            }
+        }
+    });
+
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            Msg:"全局描述文字",
+        },
+        methods:{
+            myFn() {
+                alert("全局myFn");
+            }
+        }
+    });
+</script>
+</body>
+</html>

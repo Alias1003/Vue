@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>作用域</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <father></father>
+</div>
+<template id="father">
+    <div>
+        <son>
+            <!-- slot-scope="abc"作用：接收子组件插槽暴露的数据-->
+            <template slot-scope="abc">
+                <div>新加的内容 {{abc.names}}</div>
+                <li v-for="(name,index) in abc.names"> {{name}}</li>
+            </template>
+        </son>
+    </div>
+</template>
+<template id="son">
+    <div>
+        <div>头部 {{names}}</div>
+        <!-- v-bind:names="names"作用：将当前子组件的names数据暴露出来-->
+        <slot v-bind:names="names">默认数据 {{names}}</slot>
+        <div>底部</div>
+    </div>
+</template>
+<script>
+    Vue.component("father",{
+        template:"#father",
+        components:{
+            "son":{
+                template: "#son",
+                data:function () {
+                    return {
+                        names:["li","liu","lin"]
+                    }
+                }
+            }
+        }
+    });
+    let vm = new Vue({
+       el:"#app",
+    });
+</script>
+</body>
+</html>

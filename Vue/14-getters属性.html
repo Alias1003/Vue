@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>getters</title>
+    <script src="../js/vue.js"></script>
+    <script src="../js/vuex.js"></script>
+</head>
+<body>
+<div id="app">
+    <father></father>
+</div>
+<template id="father">
+    <div>
+        {{format}}
+        {{this.$store.getters.fun}}
+        <son></son>
+    </div>
+</template>
+<template id="son">
+    <div>
+        {{this.$store.getters.fun}}
+    </div>
+</template>
+<script>
+    const store = new Vuex.Store({
+        state:{
+            msg:"chenchen",
+        },
+        getters:{
+            fun(state){
+                return state.msg + " liuliu";
+            }
+        },
+    });
+    //组件
+    Vue.component("father",{
+        template:"#father",
+        store:store,
+        data:function () {
+            return {
+                msg1:"chen",
+            }
+        },
+        computed:{
+            format(){
+                return this.msg1+" liu";
+            }
+        },
+        components:{
+            "son":{
+                template: "#son",
+            }
+        }
+    });
+    let vm = new Vue({
+        el: "#app",
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多级传递</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <grandfather></grandfather>
+</div>
+<template id="grandfather">
+    <div>
+        <p>{{name}}</p>
+        <button @click="gfmethod">grandfather</button>
+        <father @fathermethod="gfmethod" :fname="name"></father>
+    </div>
+</template>
+<template id="father">
+    <div>
+        <p>{{fname}}</p>
+        <button @click="fmethod">father</button>
+        <son @sonmethod="fmethod" :sname="fname"></son>
+    </div>
+</template>
+<template id="son">
+    <div>
+        <p>{{sname}}</p>
+        <button @click="smethod">son</button>
+    </div>
+</template>
+<script>
+    Vue.component("grandfather",{
+        template:"#grandfather",
+        data:function () {
+            return {
+                name:"chen",
+            }
+        },
+        methods:{
+            gfmethod(){
+                console.log("爷爷的方法");
+            }
+        },
+        components:{
+            "father" :{
+                template: "#father",
+                props:["fname"],
+                methods: {
+                    fmethod(){
+                        this.$emit("fathermethod");
+                    }
+                },components: {
+                    "son":{
+                        template:"#son",
+                        props: ["sname"],
+                        methods:{
+                            smethod(){
+                                this.$emit("sonmethod");
+                            }
+                        }
+                    }
+                }
+            },
+        }
+    });
+    let vm = new Vue({
+        el:"#app",
+    });
+</script>
+</body>
+</html>

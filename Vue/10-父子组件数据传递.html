@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父子组件</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <father></father>
+</div>
+<template id="father">
+    <div>
+        <p>父组件</p>
+        <p>{{name}}</p>
+        <p>{{age}}</p>
+        <!--        只能在定义的区域使用-->
+        <son :parentname="name" :parentage="age"></son>
+    </div>
+</template>
+<template id="son">
+    <div>
+        <p>子组件</p>
+        <p>{{parentname}}</p>
+        <p>{{parentage}}</p>
+    </div>
+</template>
+<script>
+    let vm = new Vue({
+        el :"#app",
+        data:{},
+        methods:{},
+        components:{
+            "father":{
+                template:"#father",
+                data:function () {
+                    return{
+                        name:"chen",
+                        age:"18",
+                    }
+                },
+                components: {
+                    "son":{
+                        template: "#son",
+                        props:["parentname","parentage"],
+                    }
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

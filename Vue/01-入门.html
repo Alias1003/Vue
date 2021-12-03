@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>入门</title>
+    <!-- 1.下载导入vue.js -->
+    <script src="../js/vue.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .size{
+            font-size: 100px;
+        }
+        .color{
+            color: red;
+        }
+        .active{
+            background-color: bisque;
+        }
+        button{
+            width: 100px;
+            height: 30px;
+        }
+    </style>
+
+</head>
+<body>
+<div id="app">
+    <!-- <p>{{name}}</p> -->
+    <!-- 通过v-bind绑定类名
+        三目运算符格式：条件表达式 ? '需要绑定的类名' : ''
+    -->
+    <!-- <p :class="['size','color',flag ? 'active':'']">段落</p> -->
+    <!-- 通过对象绑定
+        格式：{'需要绑定的类名' : 是否绑定true/false}
+    -->
+    <!-- <p :class="['size','color',{'active':false}]">段落</p> -->
+    <!-- <p :class="obj">段落</p> -->
+
+    <!-- 绑定样式 -->
+    <!-- <p :style="obj1">段落</p> -->
+    <!-- 由于默认会去Model中查找，没有则不生效，故需要写在数组里 -->
+    <p :style="[obj1,obj2]">段落</p>
+
+    <!-- 绑定事件 -->
+    <!-- <button onclick="alert('chen')">按钮</button> -->
+<!--    <button v-on:click="myFn">按钮</button>-->
+    <button @click="myFn">按钮</button>
+    <a href="https://www.baidu.com" @click.prevent="myFn1">a链接</a>
+    <input type="text" @keyup.78="myFn">
+    <input type="text" @keyup.enter="myFn">
+    <p v-color>红色段落</p>
+    <input type="text" v-focus>
+    <p v-color1="'blue'">蓝色段落</p>
+    <p v-color2="curColor">绿色段落</p>
+    <p v-color3="'yellow'">黄色段落</p>
+    <p>{{msg}}</p>
+    <p>{{msg1}}</p>
+<!--  Vue会把name交给指定的过滤器出来之后，再把处理之后的结果插入到指定的元素中  -->
+    <p>{{name | formatStr}}</p>
+</div>
+<div id="app1">
+    <p v-color2="'yellow'">黄色段落</p>
+    <p>{{name | formatStr}}</p>
+</div>
+<script>
+    Vue.config.keyCodes.n = 78;
+    Vue.directive("color",{
+       bind:function (el) {//el是被绑定指令的那个元素
+           el.style.color = "red";
+       }
+    });
+    Vue.directive("color1",{
+        bind : function (el,obj) {
+            el.style.color = obj.value;
+        }
+    });
+    Vue.directive("color2",{
+        bind : function (el,obj) {
+            el.style.color = obj.value;
+        }
+    });
+    Vue.directive("focus",{
+        inserted : function (el) {
+            el.focus();//焦点函数
+        }
+    });
+    // Vue.filter("formatStr",function (value) {
+    //     return value.replace(/chen/g,"liu");
+    // });
+    // 2.创建一个Vue实例对象
+    let vm = new Vue({
+        // 3.告诉Vue的实例对象，将来需要控制界面上的哪个区域
+        el:'#app',
+        // 4.告诉Vue实例对象，被控制区域的数据是什么
+        data:{
+            name:"chen 陈 陈陈 陈chen陈",
+            // flag: true,
+            // obj:{
+            //     'size':true,
+            //     'color':false,
+            //     'active':false,
+            // },
+            obj1:{
+                'color': 'green',
+                'font-size': '100px'
+            },
+            obj2:{
+                'background-color':'pink',
+            },
+            curColor: "green",
+            msg:"abcdefg",
+        },
+        methods:{
+            myFn(){
+                alert('chen');
+            },
+            myFn1(){
+                alert("阻止默认行为");
+            }
+        },
+        directives:{
+            color3:{
+                bind: function (el,obj) {
+                    el.style.color = obj.value;
+                }
+            }
+        },
+        computed:{
+            msg1 : function () {
+                return "abcdefg".split("").reverse().join("");
+            }
+        },
+        filters:{
+            "formatStr" :function (el) {
+                return el.replace(/chen/g,"liu");
+            }
+        }
+    });
+    let vue = new Vue({
+        // 3.告诉Vue的实例对象，将来需要控制界面上的哪个区域
+        el:'#app1',
+        // 4.告诉Vue实例对象，被控制区域的数据是什么
+        data:{
+            name:"chen 陈 陈陈 陈chen陈",
+        },
+        methods:{
+            color2:{
+                bind: function (el,obj) {
+                    el.style.color = obj.value;
+                }
+            }
+        },
+        directives:{},
+        computed:{},
+    });
+</script>
+</body>
+</html>

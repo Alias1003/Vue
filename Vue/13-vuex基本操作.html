@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuex数据共享</title>
+    <script src="../js/vue.js"></script>
+    <!--1.导入vuex.js文件-->
+    <script src="../js/vuex.js"></script>
+</head>
+<body>
+<div id="app">
+    <grandfather></grandfather>
+</div>
+<template id="grandfather">
+    <div>
+        <p>{{msg1}}</p>
+        <p>{{this.$store.state.msg}}</p>
+        <father></father>
+    </div>
+</template>
+<template id="father">
+    <div>
+        <p>{{this.$store.state.msg}}</p>
+        <son></son>
+    </div>
+</template>
+<template id="son">
+    <div>
+        <!-- 4.通过下面格式共享-->
+        <p><p>{{this.$store.state.msg}}</p></p>
+    </div>
+</template>
+<script>
+    // 2.创建Vuex对象
+    const store = new Vuex.Store({
+    //    这里的state相当于组件中的data，用于保存共享数据的
+        state:{
+            msg:"共享数据",
+        }
+    });
+    Vue.component("grandfather",{
+        template:"#grandfather",
+        //3.在祖先组件中添加store的key保存Vuex对象
+        store:store,
+        data:function(){
+            return {
+                msg1:"grandfather",
+            }
+        },
+        components:{
+            "father":{
+                template: "#father",
+                components: {
+                    "son":{
+                        template: "#son",
+                    }
+                }
+            }
+        }
+    });
+    let vm = new Vue({
+       el:"#app",
+    });
+</script>
+</body>
+</html>
