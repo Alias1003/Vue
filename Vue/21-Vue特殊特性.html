@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>特殊性</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="myFn">按钮</button>
+    <p ref="ppp">原生的DOM</p>
+    <one id="myOne" ref="one"></one>
+</div>
+<template id="one">
+    <div>
+        <p>组件</p>
+    </div>
+</template>
+<script>
+    Vue.component("one",{
+        template:"#one",
+        data:function () {
+            return {
+                name:"chen",
+            }
+        },
+        methods:{
+            say(){
+                alert("liu");
+            }
+        }
+    });
+    let vm = new Vue({
+        el:"#app",
+        data:function () {
+            return {}
+        },
+        methods:{
+            myFn(){
+                //在Vue中想获取原生的元素或者获取自定义的组件，可以通过ref来获取
+                //注意点：ref是添加给元素的元素，那么拿到的是元素的元素
+                //       ref是添加给自定义的组件，那么拿到的是自定义的组件
+                console.log(this.$refs);
+                console.log(this.$refs.ppp);
+                console.log(this.$refs.one);
+                console.log(this.$refs.one.name);
+                console.log(this.$refs.one.say);
+            },
+
+        }
+    })
+</script>
+</body>
+</html>

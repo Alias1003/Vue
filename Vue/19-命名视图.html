@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>命名视图</title>
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router.js"></script>
+    <style>
+        .onepage{
+            width: 500px;
+            height: 500px;
+            background: #d7b6d4;
+        }
+        .twopage{
+            width: 500px;
+            height: 500px;
+            background: #ffc991;
+        }
+        .onesubpage1{
+            background: pink;
+            width: 500px;
+            height: 300px;
+        }
+        .onesubpage2{
+            background: orange;
+            width: 500px;
+            height: 300px;
+        }
+        .nn-active{
+            background: #6fb500;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--5.修改哈希值-->
+<!--    <router-link to="/one" tag="button">切换到第一个界面</router-link>-->
+<!--    <router-link to="/two" tag="button">切换到第二个界面</router-link>-->
+    <!--路由出口-->
+    <!--6.路由匹配到的组件将渲染在这里-->
+    <!--当路由地址被匹配之后，多个router-view中显示不同的页面-->
+    <router-view name="name1"></router-view>
+    <router-view name="name2"></router-view>
+</div>
+<template id="one">
+    <div class="onepage">
+        <p>第一个页面</p>
+        <router-link to="/one/onesub1" tag="button">切换到第一个页面</router-link>
+        <router-link to="/one/onesub2" tag="button">切换到第二个页面</router-link>
+        <router-view></router-view>
+    </div>
+</template>
+<template id="two">
+    <div class="twopage">
+        <p>第二个页面</p>
+    </div>
+</template>
+<template id="onesub1">
+    <div class="onesubpage1">
+        <p>第一个界面子页面1</p>
+    </div>
+</template>
+<template id="onesub2">
+    <div class="onesubpage2">
+        <p>第一个界面子页面2</p>
+    </div>
+</template>
+<script>
+    //1.定义组件
+
+    const onesub1 ={
+        template:"#onesub1",
+    };
+    const onesub2 = {
+        template:"#onesub2",
+    };
+    const one = {
+        template:"#one",
+        components: {
+            onesub1:onesub1,
+            onesub2:onesub2,
+        }
+    };
+    const two = {
+        template:"#two",
+    };
+
+    //2.定义切换的路由规则(通过数组)
+    const routes = [
+        { path: '/',
+            components:{
+                name1:one,
+                name2:two,
+            },
+        },
+    ];
+    //3.根据自定义的切换规则创建路由对象，创建实例的方法
+    const router = new VueRouter({
+        routes :routes,
+        linkActiveClass:"nn-active",
+    });
+    //vue实例
+    let vm = new Vue({
+        el:"#app",
+        //4.把创建好的路由对象绑定到Vue实例上
+        router:router,
+        //注册局部组件
+        components:{
+            one:one,
+            two:two,
+        },
+    });
+</script>
+</body>
+</html>
